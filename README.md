@@ -83,7 +83,6 @@ ArchHyprland-Setup/
 
 - **Hyprland Configuration**: Custom keybindings, Waybar, and animations tailored for desktop workflows.
 - **Programming Tools**: Pre-configured Neovim, Git, and other developer essentials.
-- **Modular Structure**: Use only the parts you need; compatible with Arch and other Linux distributions.
 
 ---
 
