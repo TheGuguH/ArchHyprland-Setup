@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Check for sudo
-if [[ $EUID -ne 0 ]]; then
-   echo "Please run as root (sudo)" 
-   exit 1
-fi
-
 echo "Updating the system..."
 sudo pacman -Syu --noconfirm || { echo "Error updating the system"; exit 1; }
 
@@ -13,9 +7,8 @@ echo "Installing programming packages..."
 bash ./apps/programming/setup_programming.sh || { echo "Error on installing programming packages"; exit 1; }
 
 echo "Installing yay..."
-sudo pacman -S --needed git base-devel --noconfirm || { echo "Error installing git and base-devel"; exit 1; }
 git clone https://aur.archlinux.org/yay.git || { echo "Error cloning yay repository"; exit 1; }
-cd yay && makepkg -si --noconfirm || { echo "Error installing yay"; exit 1; }
+cd yay && makepkg -si || { echo "Error installing yay"; exit 1; }
 cd ..
 
 echo "Setting up Hyprland..."
@@ -29,15 +22,27 @@ bash ./apps/general-use/setup_general.sh || { echo "Error on installing general 
 
 echo "Intalling theme for Arch Linux, GRUB, login screen and icons"
 
-bash ./themes/Elegant-mojave-blur-grub-themes/left-dark-4k/install.sh || { echo "Error on installing GRUB theme"; exit 1; }
+sudo pacman -Sy --needed --noconfirm ttf-jetbrains-mono-nerd \
+    xorg-font-util \
+    xorg-fonts-misc \
+    xorg-xinit
+    
+yay -Sy update-grub
 
+cd ./themes/Elegant-mojave-blur-grub-themes/left-dark-1080p
+sudo ./install.sh || { echo "Error on installing GRUB theme"; exit 1; }
+cd ../../../
+
+cp -r user/ ~/
 cp -r ./themes/cursor/ ~/.icons/
 
 gsettings set org.gnome.desktop.interface cursor-theme "Future-black Cursors"
 gsettings set org.gnome.desktop.interface cursor-size 24
 
-sudo cp -r ./themes/Custom-Sugar-Candy/ /usr/share/sddm/themes/Custom-Sugar-Candy/
+sudo cp -r ./themes/Custom-Sugar-Candy/ /usr/share/sddm/themes/
 echo -e "[Theme]\nCurrent=Custom-Sugar-Candy" | sudo tee /etc/sddm.conf > /dev/null || { echo "Error configuring SDDM theme"; exit 1; }
+
+sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 echo "All done! Use 'sudo reboot' to restart the system"
 
