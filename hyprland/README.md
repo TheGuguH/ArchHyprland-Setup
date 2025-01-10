@@ -14,5 +14,5 @@ Just dotfiles for Hyprland
 
 - **FN keys**: FN keybinds from keyboard work here!
 
-- **Other Keybinds**: these keybinds are related to utilities apps. View [this file](../apps/README.md) for these keybinds
+- **Other Keybinds**: these keybinds are related to utilities apps. View [this file](../apps/utilities/README.md) for these keybinds
 
