@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Git, base-devel, debugging and profiling tools"
-sudo pacman -Sy --needed --noconfirm git base-devel gdb lldb valgrind gprof perf callgrind cppcheck
+sudo pacman -Sy --needed --noconfirm git base-devel gdb lldb valgrind perf cppcheck
 
 echo "Installing Neovim with NvChad (with some changes)"
 sudo pacman -Sy --needed --noconfirm neovim
